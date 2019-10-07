@@ -1,0 +1,73 @@
+﻿@page "/ChuckNorrisquote"
+
+@using test.Data
+@using System.Threading;
+
+@inject ChuckNorrisService JokeService
+
+<h1>Chusck Norris</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (chuckNorris == null )
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+@chuckNorris.value
+<br>
+<a target="_blank" href="@chuckNorris.url">Go To </a>
+<br>
+
+<button @onclick="LoadState">Update </button>
+
+}
+
+@code {
+
+    ChuckNorris chuckNorris;
+
+
+     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // When execution reaches this point, the first *interactive* render
+            // is complete. The component has an active connection to the browser.
+            LoadState();
+            StartCountdown();
+          
+        }
+        else
+        {
+           
+            chuckNorris =JokeService.GetJoke();
+        
+        }
+    }
+ 
+    public void LoadState()
+    { 
+         chuckNorris =JokeService.GetJoke();
+         
+    }
+
+     void StartCountdown()
+    {
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+             Console.WriteLine("Tick");
+           LoadState();
+           Console.WriteLine("Tick");
+
+            // Note that the following line is necessary because otherwise
+            // Blazor would not recognize the state change and not refresh the UI
+             InvokeAsync(() =>
+            {
+
+                StateHasChanged();
+            });
+        }), null, 0, 4000);
+    }
+}
