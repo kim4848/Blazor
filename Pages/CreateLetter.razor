@@ -1,0 +1,38 @@
+@page "/createletter"
+
+
+<h1>Add</h1>
+
+
+
+<input type="text" @bind="@MyInput" /> 
+
+
+<button @onclick="@addCategory" >Add</button>
+
+
+@foreach (var item in list)
+{
+    <span class="badge badge-pill badge-primary">@item</span>
+}
+
+<br>
+<br>
+
+
+@functions  {
+
+    private string MyInput {get; set;}
+
+    List<string> list=new List<string>();
+
+    void addCategory(){
+
+            if(list.Where(x=>x==MyInput).Count()==0){           
+            
+            list.Add(MyInput);
+        
+            this.StateHasChanged();
+            }       
+    }    
+}
