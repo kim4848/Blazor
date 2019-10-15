@@ -6,7 +6,7 @@
 
 @inject ChuckNorrisService JokeService
 
-<h1>Chusck Norris</h1>
+<h1>Chuck Norris</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
@@ -18,19 +18,22 @@ else
 {
 @chuckNorris.value
 <br>
-<a target="_blank" href="@chuckNorris.url">Go To </a>
+<a target="_blank" href="@chuckNorris.url">Go To source </a>
 <br>
 
 <button @onclick="LoadState">Update </button>
 
-<test.Components.Child Title="Panel Title from Parent"  >
+<br>
+<br>
+<br/>
+<test.Components.Child Title="Panel Title from Parent" @onclick="@showmsg"  >
     
 </test.Components.Child>
 }
 
 
 
-@code {
+@functions {
 
     ChuckNorris chuckNorris;
 
@@ -38,7 +41,6 @@ else
     {
         Console.WriteLine("Event");
     }
-
 
      protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -65,16 +67,13 @@ else
      void StartCountdown()
     {
         var timer = new Timer(new TimerCallback(_ =>
-        {
-             Console.WriteLine("Tick");
+        {             
            LoadState();
-           Console.WriteLine("Tick");
 
             // Note that the following line is necessary because otherwise
             // Blazor would not recognize the state change and not refresh the UI
              InvokeAsync(() =>
             {
-
                 StateHasChanged();
             });
         }), null, 0, 4000);
