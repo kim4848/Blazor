@@ -1,4 +1,5 @@
-﻿@page "/ChuckNorrisquote"
+﻿
+@page "/ChuckNorrisquote"
 
 @using test.Data
 @using System.Threading;
@@ -22,28 +23,36 @@ else
 
 <button @onclick="LoadState">Update </button>
 
+<test.Components.Child Title="Panel Title from Parent"  >
+    
+</test.Components.Child>
 }
+
+
 
 @code {
 
     ChuckNorris chuckNorris;
+
+    private void showmsg(MouseEventArgs e)
+    {
+        Console.WriteLine("Event");
+    }
 
 
      protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            
             // When execution reaches this point, the first *interactive* render
             // is complete. The component has an active connection to the browser.
             LoadState();
-            StartCountdown();
-          
+            StartCountdown();          
         }
         else
-        {
-           
-            chuckNorris =JokeService.GetJoke();
-        
+        {           
+            chuckNorris =JokeService.GetJoke();        
         }
     }
  
